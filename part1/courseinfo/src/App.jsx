@@ -12,9 +12,7 @@ const Content = (props) => {
 
 const Total = (props) => {
   return (
-  <>
       <p>Number of total exercises is {props.total}</p>
-  </>
   )
 }
 
