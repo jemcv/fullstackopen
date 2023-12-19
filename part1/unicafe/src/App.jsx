@@ -10,9 +10,10 @@ const ButtonHandler = (props) => {
 
 const StatisticLine = (props) => {
   return (
-    <div>
-      <p>{props.text} {props.value}</p>
-    </div>
+    <tr>
+      <td>{props.text}</td>
+      <td>{props.value}</td>
+    </tr>
   )
 }
 
