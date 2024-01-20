@@ -14,11 +14,18 @@ const Content = ({ course }) => {
     )
 }
 
+const Total = ({ course }) => {
+    return (
+      <b>Total of {course.parts[0].exercises + course.parts[1].exercises + course.parts[2].exercises + course.parts[3].exercises} exercises</b>
+    )
+}
+
 const Course = ({ course }) => {
     return (
         <div>
             <Header course={course} />
             <Content course={course} />
+            <Total  course={course} />
         </div>
     )   
 }
