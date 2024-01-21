@@ -1,32 +1,30 @@
-const Header = ({ course }) => {
-    return (
-        <h1>{course.name}</h1>
-    )
-}
-
 const Content = ({ course }) => {
     return (
-        <div>
-            {course.parts.map((part, id) => (
-                <p key={id}>{part.name} {part.exercises}</p>
-            ))}
-        </div>
-    )
-}
-
-const Total = ({ course }) => {
-    const total = course.parts.reduce((total, part) => total + part.exercises, 0)
-    return (
-      <b>Total of {total} exercises</b>
-    )
-}
+      <div>
+        <h1>Web Development Curriculum</h1>
+        {course.map(({ parts, id, name }) => {
+          const total = parts.reduce((total, part) => total + part.exercises, 0);
+  
+          return (
+            <div key={id}>
+              <h1>{name}</h1>
+              {parts.map(({ id, name, exercises }) => (
+                <div key={id}>
+                  <p>{name} {exercises}</p>
+                </div>
+              ))}
+              <b>Total of {total} exercises</b>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
 
 const Course = ({ course }) => {
     return (
         <div>
-            <Header course={course} />
             <Content course={course} />
-            <Total  course={course} />
         </div>
     )   
 }
