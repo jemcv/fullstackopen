@@ -67,6 +67,19 @@ const App = () => {
     setFilteredPersons(persons.filter(person => person.name.toLowerCase().includes(event.target.value)))
   }
 
+  const handleDelete = (id) => {
+    window.confirm(`Delete ${persons.find(person => person.id === id).name}?`)
+    personService
+      .deletePerson(id)
+      .then(() => {
+        setPersons(persons.filter(person => person.id !== id))
+        setFilteredPersons(filteredPersons.filter(person => person.id !== id))
+      })
+      .catch(error => {
+        console.log('Failed to delete person:', error)
+      })
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -74,8 +87,8 @@ const App = () => {
       <h2>Add a new</h2>
       <PersonForm addName={addName} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
-      <Persons persons={filteredPersons} />
-    </div >
+      <Persons persons={filteredPersons} onClick={handleDelete} />
+    </div>
   )
 }
 
