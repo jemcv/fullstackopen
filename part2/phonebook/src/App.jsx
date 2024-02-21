@@ -18,7 +18,7 @@ const App = () => {
 
   useEffect(() => {
     console.log('effect')
-    axios.get('http://localhost:3002/persons').then(response => {
+    axios.get('http://localhost:3001/persons').then(response => {
       console.log('promise fulfilled')
       setPersons(response.data)
       setFilteredPersons(response.data)
@@ -32,16 +32,20 @@ const App = () => {
     const personObject = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1
+      id: (persons.length + 1).toString()
     }
-
+  
     if (persons.some(person => person.name === newName)) {
       handleSameName()
     } else {
-      setPersons(persons.concat(personObject))
-      setNewName('')
-      setNewNumber('')
-      setFilteredPersons(persons.concat(personObject))
+      axios
+        .post('http://localhost:3001/persons', personObject)
+        .then(response => {
+          setPersons(prevPersons => [...prevPersons, response.data])
+          setNewName('')
+          setNewNumber('')
+          setFilteredPersons(prevPersons => [...prevPersons, response.data])
+      })
     }
   }
 
