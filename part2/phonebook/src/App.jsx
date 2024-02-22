@@ -24,6 +24,7 @@ const App = () => {
       .then(initialPersons => {
         setPersons(initialPersons)
         setFilteredPersons(initialPersons)
+        console.log(initialPersons)
     })
   }, [])
 
@@ -60,7 +61,20 @@ const App = () => {
   }
 
   const handleSameName = () => {
-    alert(`${newName} is already added to phonebook`);
+    if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+      const person = persons.find(person => person.name === newName)
+      const changedPerson = { ...person, number: newNumber }
+      console.log(changedPerson)
+      personService
+        .update(person.id, changedPerson)
+        .then(returnedPerson => {
+          setPersons(prevPersons => prevPersons.map(p => p.id !== person.id ? p : returnedPerson))
+          setFilteredPersons(prevFilteredPersons => prevFilteredPersons.map(p => p.id !== person.id ? p : returnedPerson))
+        })   
+        .catch(error => {
+          console.log('Failed to update person:', error)
+        })
+    }
   }
 
   const handleSearch = (event) => {
