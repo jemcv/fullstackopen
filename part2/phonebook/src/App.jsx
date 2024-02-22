@@ -68,16 +68,17 @@ const App = () => {
   }
 
   const handleDelete = (id) => {
-    window.confirm(`Delete ${persons.find(person => person.id === id).name}?`)
-    personService
-      .deletePerson(id)
-      .then(() => {
-        setPersons(persons.filter(person => person.id !== id))
-        setFilteredPersons(filteredPersons.filter(person => person.id !== id))
-      })
-      .catch(error => {
-        console.log('Failed to delete person:', error)
-      })
+    if (window.confirm(`Delete ${persons.find(person => person.id === id).name}?`)) {
+      personService
+        .deletePerson(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+          setFilteredPersons(filteredPersons.filter(person => person.id !== id))
+        })
+        .catch(error => {
+          console.log('Failed to delete person:', error)
+        })
+    }
   }
 
   return (
