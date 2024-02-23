@@ -3,6 +3,8 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from '../services/person'
+import Notification from './components/Notification'
+import './index.css'
 //import axios from 'axios'
 
 const App = () => {
@@ -16,6 +18,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filteredPersons, setFilteredPersons] = useState(persons)
+  const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
     console.log('effect')
@@ -48,6 +51,7 @@ const App = () => {
           setFilteredPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          setSuccessMessage(`Added ${returnedPerson.name}`)
       })
     }
   }
@@ -98,6 +102,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={successMessage} />
       <Filter handleSearch={handleSearch} />
       <h2>Add a new</h2>
       <PersonForm addName={addName} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
