@@ -18,7 +18,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filteredPersons, setFilteredPersons] = useState(persons)
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [message, setMessage] = useState(null);
+  const [status, setStatus] = useState(null);
 
   useEffect(() => {
     console.log('effect')
@@ -51,7 +52,8 @@ const App = () => {
           setFilteredPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
-          setSuccessMessage(`Added ${returnedPerson.name}`)
+          setMessage(`Added ${returnedPerson.name}`)
+          setStatus('success')
       })
     }
   }
@@ -76,7 +78,10 @@ const App = () => {
           setFilteredPersons(prevFilteredPersons => prevFilteredPersons.map(p => p.id !== person.id ? p : returnedPerson))
         })   
         .catch(error => {
-          console.log('Failed to update person:', error)
+          setMessage(`Information of ${person.name} has already been removed from server`, error)
+          setStatus('error')
+          setTimeout(() => {
+          }, 5000)
         })
     }
   }
@@ -102,7 +107,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={successMessage} />
+      <Notification message={message} status={status}/>
       <Filter handleSearch={handleSearch} />
       <h2>Add a new</h2>
       <PersonForm addName={addName} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
