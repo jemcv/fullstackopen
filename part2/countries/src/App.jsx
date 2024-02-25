@@ -5,7 +5,8 @@ const App = () => {
   const [countries, setCountries] = useState([])
   const [filteredCountries, setFilteredCountries] = useState(countries)
   const [showCountry, setShowCountry] = useState(null)
- 
+  const [weather, setWeather] = useState(null)
+
   useEffect(() => {
     axios.get("https://studies.cs.helsinki.fi/restcountries/api/all")
       .then(response => {
@@ -18,8 +19,24 @@ const App = () => {
       })
   }, [])
 
+  useEffect(() => {
+    if (showCountry) {
+      const capital = showCountry.capital;
+      console.log(capital);
+      axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${import.meta.env.VITE_SOME_KEY}`)
+        .then(response => {
+          setWeather(response.data);
+          console.log('promise fulfilled', response.data);
+        })
+        .catch(error => {
+          console.log('promise rejected', error);
+        });
+    }
+  }, [showCountry]);
+
   console.log(typeof(countries))
   console.log(countries.name)
+  console.log(import.meta.env.VITE_SOME_KEY)
 
   const handleSearch = (event) => {
     console.log(event.target.value)
@@ -29,7 +46,7 @@ const App = () => {
   const toggleShow = (country) => {
     setShowCountry(showCountry === country ? null : country);
   }
-
+ 
   return (
     <div>
       <span>Find Countries</span>
@@ -57,6 +74,16 @@ const App = () => {
                   ))}
                 </ul>
                 <img src={country.flags.png} alt={country.flags.alt} />
+                <div>
+                  <h2>Weather in {country.capital}</h2>
+                  {weather ? 
+                    <div>
+                      <p>Temperature: {weather.main?.temp}</p>
+                      <img src={`https://openweathermap.org/img/wn/${weather.weather[0]?.icon}@2x.png`}></img>                    
+                      <p>Wind: {weather.wind?.speed}</p>
+                    </div>
+                  : <p>Loading weather...</p>}
+                </div>
               </div>
             )}
           </div>
