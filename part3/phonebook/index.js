@@ -26,6 +26,11 @@ let persons = [
     }
 ]
 
+const generateId = () => {
+  const maxId = persons.length > 0 ? Math.max(...persons.map(person => person.id)) : 0
+  return maxId + 1
+}
+
 app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
 })
@@ -46,6 +51,20 @@ app.get('/api/persons/:id', (request, response) => {
     } else {
         response.status(404).end()
     }
+})
+
+app.post('/api/persons', (request, response) => {
+    const body = request.body 
+
+    const person = {
+      name: body.name,
+      number: body.number,
+      id: generateId(),
+    }
+
+    persons = persons.concat(person)
+    
+    response.json(person)
 })
 
 app.delete('/api/persons/:id', (request, response) => {
