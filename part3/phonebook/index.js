@@ -62,6 +62,16 @@ app.post('/api/persons', (request, response) => {
       id: generateId(),
     }
 
+    if (persons.some(p => p.name === person.name)) {
+        return response.status(400).json({ 
+            error: 'name must be unique' 
+        })
+    } else if (persons.some(p => p.number === person.number)) {
+        return response.status(400).json({ 
+            error: 'number must be unique' 
+        })
+    }
+
     persons = persons.concat(person)
     
     response.json(person)
