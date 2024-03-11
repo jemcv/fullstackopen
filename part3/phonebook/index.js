@@ -70,11 +70,11 @@ app.get('/api/persons/:id', (request, response) => {
 app.post('/api/persons', (request, response) => {
     const body = request.body 
 
-    const person = {
+    const person = new Person({
       name: body.name,
       number: body.number,
       id: generateId(),
-    }
+    })
 
     if (persons.some(p => p.name === person.name)) {
         return response.status(400).json({ 
@@ -86,9 +86,11 @@ app.post('/api/persons', (request, response) => {
         })
     }
 
-    persons = persons.concat(person)
+    /* persons = persons.concat(person) */
     
-    response.json(person)
+    person.save().then(personSaved => {
+        response.json(personSaved)
+    })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
@@ -97,7 +99,7 @@ app.delete('/api/persons/:id', (request, response) => {
     response.status(204).end()
 })
   
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 })
