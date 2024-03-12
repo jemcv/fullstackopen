@@ -15,6 +15,7 @@ morgan.token('body', req => {
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
 
+/*
 let persons = [
     { 
       "id": 1,
@@ -37,23 +38,29 @@ let persons = [
       "number": "39-23-6423122"
     }
 ]
-
-const generateId = () => {
-  const maxId = persons.length > 0 ? Math.max(...persons.map(person => person.id)) : 0
-  return maxId + 1
-}
+*/ 
 
 app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
 })
 
-app.get('/info', (request, response) => {
-    response.send(`<p>Phonebook has info for ${persons.length} people <br/> <p>${Date()}</p></p>`);
+app.get('/info', (request, response, next) => {
+    Person.find({})
+    .then(person => {
+        response.send(`<p>Phonebook has info for ${person.length} people <br/> <p>${Date()}</p></p>`);
+    })
+    .catch(error => {
+        next(error)
+    })
 })
 
 app.get('/api/persons', (request, response) => {
-    Person.find({}).then(person => {
+    Person.find({})
+    .then(person => {
         response.json(person)
+    })
+    .catch(error => {
+        next(error)
     })
 })
 
@@ -88,29 +95,38 @@ app.put('/api/persons/:id', (request, response, next) => {
     })
 })
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
     const body = request.body 
 
     const person = new Person({
       name: body.name,
       number: body.number,
-      id: generateId(),
     })
 
-    if (persons.some(p => p.name === person.name)) {
-        return response.status(400).json({ 
-            error: 'name must be unique' 
-        })
-    } else if (persons.some(p => p.number === person.number)) {
-        return response.status(400).json({ 
-            error: 'number must be unique' 
-        })
-    }
-
-    /* persons = persons.concat(person) */
-    
-    person.save().then(personSaved => {
-        response.json(personSaved)
+    Person.findOne({ name: body.name })
+    .then(existingPerson => {
+        if(existingPerson) {
+            return response.status(400).json({ 
+                error: 'name must be unique' 
+            })
+        } else {
+            return Person.findOne({ number: body.number })
+        }
+    })
+    .then(existingNumber => {
+        if(existingNumber) {
+            return response.status(400).json({
+                error: 'number must be unique'
+            })
+        } else {
+            return person.save()
+        }
+    })
+    .then(savedPerson => {
+        response.json(savedPerson)
+    })
+    .catch(error => {
+        next(error)
     })
 })
 
