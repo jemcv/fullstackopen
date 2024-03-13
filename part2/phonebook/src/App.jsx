@@ -82,7 +82,8 @@ const App = () => {
           setFilteredPersons(prevFilteredPersons => prevFilteredPersons.map(p => p.id !== person.id ? p : returnedPerson))
         })   
         .catch(error => {
-          setMessage(`Information of ${person.name} has already been removed from server`, error)
+          setMessage(error.response.data.error)
+          //setMessage(`Information of ${person.name} has already been removed from server`, error)
           setStatus('error')
           setTimeout(() => {
           }, 5000)

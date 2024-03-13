@@ -81,6 +81,17 @@ app.get('/api/persons/:id', (request, response, next) => {
 app.put('/api/persons/:id', (request, response, next) => {
     const body = request.body 
 
+    if (body.name.length < 3) {
+        return response.status(400).json({ 
+            error: 'name must be at least 3 characters long' 
+        })
+        
+    } else if (body.number.length < 8) {
+        return response.status(400).json({
+            error: 'number must be at least 8 characters long'
+        })
+    }
+
     const person = {
       name: body.name,
       number: body.number,
@@ -101,6 +112,11 @@ app.post('/api/persons', (request, response, next) => {
     if (body.name.length < 3) {
         return response.status(400).json({ 
             error: 'name must be at least 3 characters long' 
+        })
+
+    } else if (body.number.length < 8) {
+        return response.status(400).json({
+            error: 'number must be at least 8 characters long'
         })
     }
     
