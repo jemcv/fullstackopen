@@ -98,6 +98,12 @@ app.put('/api/persons/:id', (request, response, next) => {
 app.post('/api/persons', (request, response, next) => {
     const body = request.body 
 
+    if (body.name.length < 3) {
+        return response.status(400).json({ 
+            error: 'name must be at least 3 characters long' 
+        })
+    }
+    
     const person = new Person({
       name: body.name,
       number: body.number,
@@ -150,7 +156,9 @@ const errorHandler = (error, request, response, next) => {
     console.error(error)
     if (error.name === 'CastError') {
         return response.status(400).send({ error: 'malformatted id' })
-    } 
+    } else if (error.name === 'ValidationError') {    
+        return response.status(400).json({ error: error.message })  
+    }
     next(error)
 }
 
