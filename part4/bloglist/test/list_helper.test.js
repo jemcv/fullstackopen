@@ -69,7 +69,11 @@ describe('total likes', () => {
       url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
       likes: 2,
       __v: 0
-    }  
+    },
+    {
+      author: "Edsger W. Dijkstra",
+      likes: 17
+    }
   ]
 
   test('of empty list is zero', () => {
@@ -89,12 +93,17 @@ describe('total likes', () => {
   
   test('of a favorite blog with the most likes', () => {
     const result = listHelper.favoriteBlog(blogs)
-    assert.deepStrictEqual(result.likes, 12)
+    assert.deepStrictEqual(result.likes, 17)
   })
 
   test('of a author with the most blogs', () => {
     const result = listHelper.mostBlogs(blogs)
-    assert.strictEqual(result.author, 'Robert C. Martin')
+    assert.strictEqual(result.author, 'Edsger W. Dijkstra')
   })
-  
+
+  test('of a author with the most likes', () => {
+    const result = listHelper.mostLikes(blogs)
+    assert.strictEqual(result.likes, 17)
+  })
+
 })

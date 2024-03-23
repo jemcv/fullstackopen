@@ -23,9 +23,20 @@ const mostBlogs = (blogs) => {
     })
 }
 
+const mostLikes = (blogs) => {
+    return blogs.reduce((blogWithMostLikes, currentBlog) => {
+        if(currentBlog.likes > blogWithMostLikes.likes) {
+            return currentBlog;
+        } else {
+            return blogWithMostLikes;
+        }
+    });
+}
+
 module.exports = {
     dummy,
     totalLikes,
     favoriteBlog,
-    mostBlogs
+    mostBlogs,
+    mostLikes
 }
