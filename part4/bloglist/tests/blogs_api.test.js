@@ -114,6 +114,32 @@ test('deleting a single blog post resource', async () => {
     .expect(204)
 })
 
+test('updating a single blog post resource', async () => {
+  // Create a new blog post
+  const newBlog = await api
+    .post('/api/blogs')
+    .send({
+      title: "TESTTES123TTEST",
+      url: "example.com",
+      likes: 0
+    })
+    .expect(201)
+
+  const updatedBlog = await api
+    .put(`/api/blogs/${newBlog.body.id}`)
+    .send({
+      title: "Updated Title",
+      url: "updated.com",
+      likes: 1
+    })
+    .expect(200)
+    .expect(response => {
+      assert.strictEqual(response.body.title, "Updated Title")
+      assert.strictEqual(response.body.url, "updated.com")
+      assert.strictEqual(response.body.likes, 1)
+    })
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
