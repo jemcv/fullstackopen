@@ -72,21 +72,19 @@ test('unique identifier property of the blog posts is named id', async () => {
     })
 })
 
-test('blog succesfully added', async () => {
-  const newBlog = {
-    _id: "10987ba71b54a676234d17fb",
-    title: "Test",
-    author: "jemcv",
-    url: "example.com",
-    likes: 0,
-    __v: 0
-  }
+test('likes property is missing from the request, it will default to the value 0', async () => {
+    const newBlog = {
+      title: "TESTTES123TTEST",
+    }
 
-  await api
+    await api
     .post('/api/blogs')
     .send(newBlog)
     .expect(201)
     .expect('Content-Type', /application\/json/)
+    .expect(response => {
+      assert.strictEqual(response.body.likes, 0)
+    })
 })
 
 after(async () => {
