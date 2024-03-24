@@ -75,6 +75,7 @@ test('unique identifier property of the blog posts is named id', async () => {
 test('likes property is missing from the request, it will default to the value 0', async () => {
     const newBlog = {
       title: "TESTTES123TTEST",
+      url: "example.com"
     }
 
     await api
@@ -96,6 +97,21 @@ test('title and url properties are missing from the request data, status code 40
     .expect(response => {
       assert.strictEqual(response.body.error, 'Bad Request')
     })
+})
+
+test('deleting a single blog post resource', async () => {
+  const newBlog = await api
+    .post('/api/blogs')
+    .send({
+      title: "TESTTES123TTEST",
+      url: "example.com",
+      likes: 0
+    })
+    .expect(201)
+
+  await api
+    .delete(`/api/blogs/${newBlog.body.id}`)
+    .expect(204)
 })
 
 after(async () => {

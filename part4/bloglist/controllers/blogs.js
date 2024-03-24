@@ -1,4 +1,5 @@
 const blogRouter = require('express').Router()
+require('express-async-errors');
 const Blog = require('../models/blog')
 
 blogRouter.get('/', async (request, response) => {
@@ -12,10 +13,14 @@ blogRouter.post('/', async (request, response) => {
   if (!title || !url) {
     return response.status(400).json({ error: 'Bad Request' });
   }
-  
   const blog = new Blog(request.body);
   const result = await blog.save();
   response.status(201).json(result);
+});
+
+blogRouter.delete('/:id', async (request, response) => {
+  await Blog.findByIdAndDelete(request.params.id);
+  response.status(204).end();
 });
 
 module.exports = blogRouter
