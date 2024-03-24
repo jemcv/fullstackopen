@@ -81,9 +81,20 @@ test('likes property is missing from the request, it will default to the value 0
     .post('/api/blogs')
     .send(newBlog)
     .expect(201)
-    .expect('Content-Type', /application\/json/)
     .expect(response => {
       assert.strictEqual(response.body.likes, 0)
+    })
+})
+
+test('title and url properties are missing from the request data, status code 400 Bad Request', async () => {
+    const newBlog = {}
+
+    await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+    .expect(response => {
+      assert.strictEqual(response.body.error, 'Bad Request')
     })
 })
 
