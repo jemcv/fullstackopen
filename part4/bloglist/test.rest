@@ -34,3 +34,15 @@ Content-Type: application/json
   "name": "root",
   "password": "test"
 }
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Test Blog for Root Test",
+  "author": "Test Author",
+  "url": "http://testblog.com",
+  "likes": 10,
+  "userId": "6600ec5b3c65d10d58e220f3"
+}
