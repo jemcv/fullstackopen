@@ -55,3 +55,15 @@ Content-Type: application/json
   "username": "root",
   "password": "test"
 }
+
+### 
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY2MDBlM2VjNjJjMTYxYTBhMDI4MWU4NiIsImlhdCI6MTcxMTUxMzU0OCwiZXhwIjoxNzExNTE3MTQ4fQ.ujM-nxjTOtqq3VyiQGXq5Dnf7fnAEPh_U1cChzCq9Gk
+
+{
+  "title": "Test Blog for Root Test",
+  "author": "Next Author",
+  "url": "http://testblog.com",
+  "likes": 10
+}
