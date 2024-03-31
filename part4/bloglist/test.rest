@@ -60,15 +60,15 @@ Content-Type: application/json
 ### 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QxMjMiLCJpZCI6IjY2MDNiOWQ3ZTAwZTdkMGJlNTM3Y2ZlOCIsImlhdCI6MTcxMTUyMDIyNCwiZXhwIjoxNzExNTIzODI0fQ.SsNc2sgyn4uUybigEGtaCmzHEKV9Rb1jV_zK0EmQQ0M
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QxMjMiLCJpZCI6IjY2MDNiOWQ3ZTAwZTdkMGJlNTM3Y2ZlOCIsImlhdCI6MTcxMTg1MTk4MCwiZXhwIjoxNzExODU1NTgwfQ.H8Z94_uKjct9BzfeVQiMSOkOgJMafXZ0HQyuMbzNG00
 
 {
-  "title": "For deletion blog test",
-  "author": "Next Author",
-  "url": "http://testblog.com",
+  "title": "Root123 Blog",
+  "author": "Root123",
+  "url": "http://Root123.com",
   "likes": 100
 }
 
 ###
-DELETE http://localhost:3003/api/blogs/6603b9f0e00e7d0be537cfec
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY2MDBlM2VjNjJjMTYxYTBhMDI4MWU4NiIsImlhdCI6MTcxMTUxOTkzNywiZXhwIjoxNzExNTIzNTM3fQ.KtfyfJoZv5NmflGcCDsmVGaBn1pVE5SJ1p8qbvWessU
+DELETE http://localhost:3003/api/blogs/6608cad1b66c6caa94fe8261
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QxMjMiLCJpZCI6IjY2MDNiOWQ3ZTAwZTdkMGJlNTM3Y2ZlOCIsImlhdCI6MTcxMTg1MTk4MCwiZXhwIjoxNzExODU1NTgwfQ.H8Z94_uKjct9BzfeVQiMSOkOgJMafXZ0HQyuMbzNG00
