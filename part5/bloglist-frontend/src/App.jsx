@@ -11,10 +11,10 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+      setBlogs(blogs)
+    )
   }, [])
-  
+
   const handleLogin = async (event) => {
     event.preventDefault()
     console.log(username, password)
@@ -37,25 +37,25 @@ const App = () => {
         <h2>Log in to application</h2>
         <form onSubmit={handleLogin}>
           <div>
-              username
-              <input
+            username
+            <input
               type="text"
               value={username}
               name="Username"
               onChange={({ target }) => setUsername(target.value)}
-              />
+            />
           </div>
           <div>
-              password
-              <input
+            password
+            <input
               type="text"
               value={password}
               name="Password"
               onChange={({ target }) => setPassword(target.value)}
-              />
+            />
           </div>
           <button type="submit">login</button>
-      </form>
+        </form>
       </div>
     )
   }
