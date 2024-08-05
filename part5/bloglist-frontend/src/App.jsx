@@ -10,9 +10,15 @@ const App = () => {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs)
-    )
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+      blogService.getAll().then(blogs =>
+        setBlogs(blogs)
+      )
+    }
   }, [])
 
   const handleLogin = async (event) => {
@@ -23,12 +29,23 @@ const App = () => {
       const user = await loginService.login({
         username, password,
       })
+      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
+      const blogs = await blogService.getAll()
+      setBlogs(blogs)
     } catch (exception) {
       console.log('wrong credentials')
     }
+  }
+
+  const handleLogout = () => {
+    window.localStorage.removeItem('loggedBlogAppUser')
+    blogService.setToken(null)
+    setUser(null)
+    setBlogs([])
   }
 
   if (user === null) {
@@ -48,7 +65,7 @@ const App = () => {
           <div>
             password
             <input
-              type="text"
+              type="password"
               value={password}
               name="Password"
               onChange={({ target }) => setPassword(target.value)}
@@ -63,6 +80,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      {user.name} logged in<button onClick={handleLogout}>logout</button>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
