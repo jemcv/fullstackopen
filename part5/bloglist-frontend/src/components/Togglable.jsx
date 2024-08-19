@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const Togglable = ({ buttonLabel, cancelLabel, children }) => {
-  const [visible, setVisible] = useState(false);
-
+const Togglable = ({ buttonLabel, cancelLabel, children, visible, setVisible }) => {
   const hideWhenVisible = { display: visible ? 'none' : '' };
   const showWhenVisible = { display: visible ? '' : 'none' };
 

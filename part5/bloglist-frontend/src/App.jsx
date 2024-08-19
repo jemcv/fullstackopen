@@ -16,6 +16,7 @@ const App = () => {
   const [newUrl, setNewUrl] = useState('')
   const [status, setStatus] = useState(null)
   const [message, setMessage] = useState(null)
+  const [formVisible, setFormVisible] = useState(false)
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
@@ -87,6 +88,7 @@ const App = () => {
       setNewUrl('')
       setStatus('success')
       setMessage(`A new blog "${newBlog.title}" by ${newBlog.author} added`)
+      setFormVisible(false) // Hide the form
       setTimeout(() => {
         setMessage(null)
       }, 5000)
@@ -135,9 +137,11 @@ const App = () => {
       <h2>blogs</h2>
       <Notification message={message} status={status} />
       {user.name} logged in<button onClick={handleLogout}>logout</button>
-      <Togglable
-        buttonLabel="create new"
-        cancelLabel="cancel"
+      <Togglable 
+        buttonLabel="create new" 
+        cancelLabel="cancel" 
+        visible={formVisible}
+        setVisible={setFormVisible}
       >
         <BlogForm
           handleCreateBlog={handleCreateBlog}
