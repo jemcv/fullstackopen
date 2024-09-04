@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
 
 const Blog = ({ blog, updateBlog, deleteBlog, username }) => {
   const blogStyle = {
@@ -7,34 +7,34 @@ const Blog = ({ blog, updateBlog, deleteBlog, username }) => {
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5,
-  };
-  const [visible, setVisible] = useState(false);
-  const [userLikes, setUserLikes] = useState(blog.likes);
-  const [isOwner, setIsOwner] = useState(false);
+  }
+  const [visible, setVisible] = useState(false)
+  const [userLikes, setUserLikes] = useState(blog.likes)
+  const [isOwner, setIsOwner] = useState(false)
 
   useEffect(() => {
-    setIsOwner(blog.user.username === username);
-  }, [username, blog.user.username]);
+    setIsOwner(blog.user.username === username)
+  }, [username, blog.user.username])
 
   const addLike = async () => {
     const updatedBlog = {
       ...blog,
       likes: userLikes + 1,
       user: blog.user.id,
-    };
-    try {
-      await updateBlog(updatedBlog);
-      setUserLikes(userLikes + 1);
-    } catch (error) {
-      console.error('error updating likes:', error);
     }
-  };
+    try {
+      await updateBlog(updatedBlog)
+      setUserLikes(userLikes + 1)
+    } catch (error) {
+      console.error('error updating likes:', error)
+    }
+  }
 
   const handleDelete = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-      deleteBlog(blog.id, blog);
+      deleteBlog(blog.id, blog)
     }
-  };
+  }
 
   return (
     <div style={blogStyle}>
@@ -64,7 +64,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, username }) => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Blog;
+export default Blog

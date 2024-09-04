@@ -39,7 +39,7 @@ const BlogForm = ({ handleCreateBlog, newTitle, newAuthor, newUrl, setNewTitle, 
         <button type="submit">create</button>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default BlogForm;
+export default BlogForm

@@ -22,7 +22,7 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user);
+      setUser(user)
       blogService.setToken(user.token)
       blogService.getAll().then((blogs) => {
         const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
@@ -57,7 +57,7 @@ const App = () => {
       setMessage('Wrong credentials')
       setTimeout(() => {
         setMessage(null)
-      }, 5000);
+      }, 5000)
       console.log('wrong credentials')
     }
   }
@@ -83,7 +83,7 @@ const App = () => {
     }
 
     try {
-      const createdBlog = await blogService.create(newBlog);
+      const createdBlog = await blogService.create(newBlog)
       setBlogs(blogs.concat(createdBlog))
       setNewTitle('')
       setNewAuthor('')
