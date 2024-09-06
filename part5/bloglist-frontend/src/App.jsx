@@ -11,9 +11,6 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [newTitle, setNewTitle] = useState('')
-  const [newAuthor, setNewAuthor] = useState('')
-  const [newUrl, setNewUrl] = useState('')
   const [status, setStatus] = useState(null)
   const [message, setMessage] = useState(null)
   const [formVisible, setFormVisible] = useState(false)
@@ -74,20 +71,10 @@ const App = () => {
     }, 5000)
   }
 
-  const handleCreateBlog = async (event) => {
-    event.preventDefault()
-    const newBlog = {
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl,
-    }
-
+  const handleCreateBlog = async (newBlog) => {
     try {
       const createdBlog = await blogService.create(newBlog)
       setBlogs(blogs.concat(createdBlog))
-      setNewTitle('')
-      setNewAuthor('')
-      setNewUrl('')
       setStatus('success')
       setMessage(`A new blog "${newBlog.title}" by ${newBlog.author} added`)
       setFormVisible(false)
@@ -163,15 +150,7 @@ const App = () => {
         visible={formVisible}
         setVisible={setFormVisible}
       >
-        <BlogForm
-          handleCreateBlog={handleCreateBlog}
-          newTitle={newTitle}
-          newAuthor={newAuthor}
-          newUrl={newUrl}
-          setNewTitle={setNewTitle}
-          setNewAuthor={setNewAuthor}
-          setNewUrl={setNewUrl}
-        />
+        <BlogForm handleCreateBlog={handleCreateBlog} />
       </Togglable>
       {blogs.map((blog) => (
         <Blog

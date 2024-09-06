@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blog from '../src/components/Blog'
+import BlogForm from '../src/components/BlogForm'
 import { vi } from 'vitest'
 
-test('renders blog', () => {
+test('Make a test, which checks that the component displaying a blog renders the blog\'s title and author, but does not render its URL or number of likes by default.', () => {
   const blog = {
     title: 'Component testing is done with react-testing-library',
     author: 'Test Author',
@@ -18,7 +19,7 @@ test('renders blog', () => {
   expect(div).toHaveTextContent('Component testing is done with react-testing-library')
 })
 
-test('shows blog details when view button is clicked', async () => {
+test('Make a test, which checks that the blog\'s URL and number of likes are shown when the button controlling the shown details has been clicked.', async () => {
   const blog = {
     title: 'Component testing is done with react-testing-library',
     author: 'Test Author',
@@ -42,7 +43,7 @@ test('shows blog details when view button is clicked', async () => {
   expect(container).toHaveTextContent('likes 5')
 })
 
-test('like button is clicked twice event handler received twice', async () => {
+test('Make a test, which ensures that if the like button is clicked twice, the event handler the component received as props is called twice.', async () => {
   const mockUpdateBlog = vi.fn()
 
   const blog = {
@@ -67,4 +68,32 @@ test('like button is clicked twice event handler received twice', async () => {
   await user.click(likeButton)
 
   expect(mockUpdateBlog).toHaveBeenCalledTimes(2)
+})
+
+test('Make a test for the new blog form. The test should check, that the form calls the event handler it received as props with the right details when a new blog is created.', async () => {
+  const handleCreateBlog = vi.fn()
+  const user = userEvent.setup()
+
+  render(
+    <BlogForm
+      handleCreateBlog={handleCreateBlog}
+    />
+  )
+
+  const titleField = screen.getByLabelText('title')
+  const authorField = screen.getByLabelText('author')
+  const urlField = screen.getByLabelText('url')
+  const submitButton = screen.getByText('create')
+
+  await user.type(titleField, 'Test Title')
+  await user.type(authorField, 'Test Author')
+  await user.type(urlField, 'http://testurl.com')
+  await user.click(submitButton)
+
+  expect(handleCreateBlog).toHaveBeenCalledTimes(1)
+  expect(handleCreateBlog.mock.calls[0][0]).toEqual({
+    title: 'Test Title',
+    author: 'Test Author',
+    url: 'http://testurl.com',
+  })
 })

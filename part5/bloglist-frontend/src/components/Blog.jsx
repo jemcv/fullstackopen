@@ -13,8 +13,10 @@ const Blog = ({ blog, updateBlog, deleteBlog, username }) => {
   const [isOwner, setIsOwner] = useState(false)
 
   useEffect(() => {
-    setIsOwner(blog.user.username === username)
-  }, [username, blog.user.username])
+    if (blog.user && blog.user.username === username) {
+      setIsOwner(true)
+    }
+  }, [blog.user, username])
 
   const addLike = async () => {
     const updatedBlog = {
@@ -55,7 +57,6 @@ const Blog = ({ blog, updateBlog, deleteBlog, username }) => {
               Like
             </button>
           </div>
-          <div>{blog.user.username}</div>
           {isOwner && (
             <button onClick={handleDelete}>
               Remove
