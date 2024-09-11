@@ -108,7 +108,7 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       <Notification message={message} status={status} />
-      {user.name} logged in<button onClick={handleLogout}>logout</button>
+      {user.name} logged in<button id="logout-button" onClick={handleLogout}>logout</button>
       <Togglable
         buttonLabel="create new"
         cancelLabel="cancel"
