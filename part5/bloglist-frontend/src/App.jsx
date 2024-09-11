@@ -3,13 +3,12 @@ import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
+import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [status, setStatus] = useState(null)
   const [message, setMessage] = useState(null)
@@ -28,20 +27,12 @@ const App = () => {
     }
   }, [])
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    console.log(username, password)
-
+  const handleLogin = async (username, password) => {
     try {
-      const user = await loginService.login({
-        username,
-        password,
-      })
+      const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setUser(user)
-      setUsername('')
-      setPassword('')
       const blogs = await blogService.getAll()
       setBlogs(blogs)
       setStatus('success')
@@ -110,35 +101,7 @@ const App = () => {
   }
 
   if (user === null) {
-    return (
-      <div>
-        <h2>Log in to application</h2>
-        <Notification message={message} status={status} />
-        <form onSubmit={handleLogin}>
-          <div>
-            username
-            <input
-              id="username"
-              type="text"
-              value={username}
-              name="Username"
-              onChange={({ target }) => setUsername(target.value)}
-            />
-          </div>
-          <div>
-            password
-            <input
-              id="password"
-              type="password"
-              value={password}
-              name="Password"
-              onChange={({ target }) => setPassword(target.value)}
-            />
-          </div>
-          <button id="login-button" type="submit">login</button>
-        </form>
-      </div>
-    )
+    return <LoginForm handleLogin={handleLogin} message={message} status={status} />
   }
 
   return (

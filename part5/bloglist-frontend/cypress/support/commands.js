@@ -34,13 +34,13 @@ Cypress.Commands.add('login', ({ username, password }) => {
   });
 })
 
-Cypress.Commands.add('createBlog', ({ title, author, url }) => {
+Cypress.Commands.add('createBlog', ({ title, author, url, likes = 0 }) => {
   cy.request({
+    url: `${Cypress.env('BACKEND')}/blogs`,
     method: 'POST',
-    url: 'http://localhost:3003/api/blogs',
-    body: { title, author, url },
+    body: { title, author, url, likes },
     headers: {
-      'Authorization': `Bearer ${JSON.parse(localStorage.getItem('loggedBlogappUser')).token}`
+      'Authorization': `Bearer ${JSON.parse(localStorage.getItem('loggedBlogAppUser')).token}`
     }
   })
 

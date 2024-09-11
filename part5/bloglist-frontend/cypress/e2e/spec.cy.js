@@ -31,15 +31,29 @@ describe('Blog app', function() {
 
 describe('When logged in', function() {
   beforeEach(function() {
-   cy.login({ username: '123123', password: '123123' })
+    cy.visit('http://localhost:5173')
+    cy.get('#username').type('123123')
+    cy.get('#password').type('123123')
+    cy.get('#login-button').click()
   })
 
   it('A blog can be created', function() {
     cy.contains('create new').click()
-    cy.get('#title').type('a blog created by cypress')
+    cy.get('#title').type('A Cypress blog')
     cy.get('#author').type('cypress')
     cy.get('#url').type('cypress.com')
     cy.get('#create-button').click()
-    cy.contains('a blog created by cypress')
+    cy.contains('A Cypress blog')
+  })
+
+  it('A blog can be liked', function() {
+    cy.contains('create new').click()
+    cy.get('#title').type('A Cypress blog')
+    cy.get('#author').type('cypress')
+    cy.get('#url').type('cypress.com')
+    cy.get('#create-button').click()
+    cy.contains('view').click()
+    cy.contains('Like').click()
+    cy.contains('likes 1')
   })
 })
