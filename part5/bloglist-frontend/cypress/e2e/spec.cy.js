@@ -56,4 +56,15 @@ describe('When logged in', function() {
     cy.contains('Like').click()
     cy.contains('likes 1')
   })
+
+  it('A blog can be deleted', function() {
+    cy.contains('create new').click()
+    cy.get('#title').type('A Cypress blog')
+    cy.get('#author').type('cypress')
+    cy.get('#url').type('cypress.com')
+    cy.get('#create-button').click()
+    cy.contains('view').click()
+    cy.contains('remove').click()
+    cy.get('.blog').should('not.exist')
+  }) 
 })

@@ -59,7 +59,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, username }) => {
           </div>
           {isOwner && (
             <button onClick={handleDelete}>
-              Remove
+              remove
             </button>
           )}
         </div>
